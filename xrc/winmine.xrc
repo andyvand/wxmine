@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+
+    <!-- ============================================================ -->
+    <!-- App icon — loaded by MainFrame via wxXmlResource::LoadIcon  -->
+    <!-- ============================================================ -->
+    <object class="wxIcon" name="ID_APP_ICON">../assets/wxmine.png</object>
+
+    <!-- ============================================================ -->
+    <!-- Menu bar — ported from menu.inc                              -->
+    <!-- ============================================================ -->
+    <object class="wxMenuBar" name="ID_MENU">
+        <object class="wxMenu" name="menu_game">
+            <label>&amp;Game</label>
+            <object class="wxMenuItem" name="IDM_NEW">
+                <label>&amp;New\tF2</label>
+            </object>
+            <object class="separator"/>
+            <object class="wxMenuItem" name="IDM_BEGIN">
+                <label>&amp;Beginner</label>
+                <checkable>1</checkable>
+            </object>
+            <object class="wxMenuItem" name="IDM_INTER">
+                <label>&amp;Intermediate</label>
+                <checkable>1</checkable>
+            </object>
+            <object class="wxMenuItem" name="IDM_EXPERT">
+                <label>&amp;Expert</label>
+                <checkable>1</checkable>
+            </object>
+            <object class="wxMenuItem" name="IDM_CUSTOM">
+                <label>&amp;Custom...</label>
+                <checkable>1</checkable>
+            </object>
+            <object class="separator"/>
+            <object class="wxMenuItem" name="IDM_MARK">
+                <label>&amp;Marks (?)</label>
+                <checkable>1</checkable>
+            </object>
+            <object class="wxMenuItem" name="IDM_COLOR">
+                <label>Co&amp;lor</label>
+                <checkable>1</checkable>
+            </object>
+            <object class="wxMenuItem" name="IDM_SOUND">
+                <label>&amp;Sound</label>
+                <checkable>1</checkable>
+            </object>
+            <object class="separator"/>
+            <object class="wxMenuItem" name="IDM_BEST">
+                <label>Best &amp;Times...</label>
+            </object>
+            <object class="separator"/>
+            <object class="wxMenuItem" name="wxID_EXIT">
+                <label>E&amp;xit</label>
+            </object>
+        </object>
+        <object class="wxMenu" name="menu_help">
+            <label>&amp;Help</label>
+            <object class="wxMenuItem" name="wxID_ABOUT">
+                <label>&amp;About Minesweeper...</label>
+            </object>
+        </object>
+    </object>
+
+    <!-- ============================================================ -->
+    <!-- Custom Field dialog (ID_DLG_PREF) — from pref.dlg            -->
+    <!-- ============================================================ -->
+    <object class="wxDialog" name="ID_DLG_PREF">
+        <title>Custom Field</title>
+        <icon>../assets/wxmine.png</icon>
+        <style>wxDEFAULT_DIALOG_STYLE</style>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALL|wxEXPAND</flag>
+                <border>10</border>
+                <object class="wxFlexGridSizer">
+                    <cols>2</cols>
+                    <rows>3</rows>
+                    <vgap>6</vgap>
+                    <hgap>8</hgap>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <object class="wxStaticText" name="ID_TXT_HEIGHT">
+                            <label>&amp;Height:</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxTextCtrl" name="ID_EDIT_HEIGHT">
+                            <size>60,-1</size>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <object class="wxStaticText" name="ID_TXT_WIDTH">
+                            <label>&amp;Width:</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxTextCtrl" name="ID_EDIT_WIDTH">
+                            <size>60,-1</size>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <object class="wxStaticText" name="ID_TXT_MINES">
+                            <label>&amp;Mines:</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxTextCtrl" name="ID_EDIT_MINES">
+                            <size>60,-1</size>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALL|wxALIGN_RIGHT</flag>
+                <border>10</border>
+                <object class="wxStdDialogButtonSizer">
+                    <object class="button">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxButton" name="wxID_OK">
+                            <label>OK</label>
+                            <default>1</default>
+                        </object>
+                    </object>
+                    <object class="button">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxButton" name="wxID_CANCEL">
+                            <label>Cancel</label>
+                        </object>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+
+    <!-- ============================================================ -->
+    <!-- Best-times dialog (ID_DLG_BEST) — "Fastest Mine Sweepers"    -->
+    <!-- ============================================================ -->
+    <object class="wxDialog" name="ID_DLG_BEST">
+        <title>Fastest Mine Sweepers</title>
+        <icon>../assets/wxmine.png</icon>
+        <style>wxDEFAULT_DIALOG_STYLE</style>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALL|wxEXPAND</flag>
+                <border>10</border>
+                <object class="wxFlexGridSizer">
+                    <cols>3</cols>
+                    <rows>3</rows>
+                    <vgap>4</vgap>
+                    <hgap>12</hgap>
+                    <object class="sizeritem">
+                        <object class="wxStaticText" name="ID_STEXT1">
+                            <label>Beginner:</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxStaticText" name="ID_TIME_BEGIN">
+                            <label></label>
+                            <size>80,-1</size>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxStaticText" name="ID_NAME_BEGIN">
+                            <label></label>
+                            <size>120,-1</size>
+                        </object>
+                    </object>
+
+                    <object class="sizeritem">
+                        <object class="wxStaticText" name="ID_STEXT2">
+                            <label>Intermediate:</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxStaticText" name="ID_TIME_INTER">
+                            <label></label>
+                            <size>80,-1</size>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxStaticText" name="ID_NAME_INTER">
+                            <label></label>
+                            <size>120,-1</size>
+                        </object>
+                    </object>
+
+                    <object class="sizeritem">
+                        <object class="wxStaticText" name="ID_STEXT3">
+                            <label>Expert:</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxStaticText" name="ID_TIME_EXPERT">
+                            <label></label>
+                            <size>80,-1</size>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxStaticText" name="ID_NAME_EXPERT">
+                            <label></label>
+                            <size>120,-1</size>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALL|wxALIGN_RIGHT</flag>
+                <border>10</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxRIGHT</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="ID_BTN_RESET">
+                            <label>&amp;Reset Scores</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <object class="wxButton" name="wxID_OK">
+                            <label>OK</label>
+                            <default>1</default>
+                        </object>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+
+    <!-- ============================================================ -->
+    <!-- New-best-time name entry dialog (ID_DLG_ENTER)              -->
+    <!-- ============================================================ -->
+    <object class="wxDialog" name="ID_DLG_ENTER">
+        <title>Congratulations</title>
+        <icon>../assets/wxmine.png</icon>
+        <style>wxDEFAULT_DIALOG_STYLE</style>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALL|wxEXPAND</flag>
+                <border>10</border>
+                <object class="wxStaticText" name="ID_TEXT_BEST">
+                    <label></label>
+                    <size>260,60</size>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxLEFT|wxRIGHT|wxEXPAND</flag>
+                <border>10</border>
+                <object class="wxTextCtrl" name="ID_EDIT_NAME"/>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALL|wxALIGN_CENTER_HORIZONTAL</flag>
+                <border>10</border>
+                <object class="wxButton" name="wxID_OK">
+                    <label>OK</label>
+                    <default>1</default>
+                </object>
+            </object>
+        </object>
+    </object>
+
+</resource>

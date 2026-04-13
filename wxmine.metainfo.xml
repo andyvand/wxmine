@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+ <id>com.wxmine.app</id>
+ <metadata_license>CC-BY-SA-3.0</metadata_license>
+ <project_license>GPL-2.0</project_license>
+ <content_rating type="oars-1.1"/>
+ <name>wxmine</name>
+ <developer id="com.wmine">
+  <name>wxmine</name>
+ </developer>
+ <summary>Microsoft Minesweeper</summary>
+ <description>
+  <p>
+    Microsoft Minesweeper is a game.
+  </p>
+ </description>
+ <launchable type="desktop-id">wxmine.desktop</launchable>
+ <releases>
+   <release version="1.0.0" date="2026-04-13"/>
+ </releases>
+ <url type="homepage">https://github.com/andyvand/wxmine</url>
+ <url type="bugtracker">https://github.com/andyvand/wxmine/issues</url>
+ <update_contact>andyvand@gmail.com</update_contact>
+</component>

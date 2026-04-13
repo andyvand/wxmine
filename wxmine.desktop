@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=wxmine
+GenericName=Microsoft Minesweeper
+Comment=Microsoft Minesweeper
+Exec=wxmine %f
+Icon=wxmine
+Categories=Game;Bomb;
+Keywords=Bomb;Microsoft;Minesweeper;

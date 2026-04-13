@@ -1,0 +1,14 @@
+/***************************************************************************/
+/**                  Microsoft Windows                                    **/
+/**            Copyright(c) Microsoft Corp., 1991, 1992                   **/
+/***************************************************************************/
+
+#include <windows.h>
+
+#include "wxmine.rcv"
+
+#ifdef EMBED_MANIFEST
+1 24 wxmine.manifest
+#endif
+
+100   ICON    assets/wxmine.ico
