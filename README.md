@@ -15,6 +15,10 @@ sprite sheet (PNG) for the board graphics.
 
 ![](/screenshots/wxmine_macOS.png)
 
+- Linux:
+
+![](/screenshots/wxmine_linux.png)
+
 ## Building
 
 You need wxWidgets 3.x development files and CMake 3.14+.
