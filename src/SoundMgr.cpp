@@ -69,6 +69,13 @@ SoundMgr::~SoundMgr() {
 }
 
 int SoundMgr::Init() {
+    // Init() is called again when the user toggles sound back on. Re-extracting
+    // would push duplicate paths into m_tempFiles, so ~SoundMgr would try to
+    // delete each file twice and log "file not found" on the second pass.
+    if (m_initialised) {
+        return 3; // fsoundOn
+    }
+
     const wxString tickPath = ExtractToTempFile("assets/tick.wav",    "tick.wav");
     const wxString winPath  = ExtractToTempFile("assets/win.wav",     "win.wav");
     const wxString losePath = ExtractToTempFile("assets/explode.wav", "explode.wav");
