@@ -5,6 +5,14 @@ lives in the parent directory. Builds on Linux, macOS, and Windows from a
 single tree of code, using XRC for the menu and dialogs and an embedded
 sprite sheet (PNG) for the board graphics.
 
+## Screenshots
+
+- Windows:
+![](/screenshots/wxmine_win.png)
+
+- macOS:
+![](/screenshots/wxmine_macOS.png)
+
 ## Building
 
 You need wxWidgets 3.x development files and CMake 3.14+.
