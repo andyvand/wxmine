@@ -8,9 +8,11 @@ sprite sheet (PNG) for the board graphics.
 ## Screenshots
 
 - Windows:
+
 ![](/screenshots/wxmine_win.png)
 
 - macOS:
+
 ![](/screenshots/wxmine_macOS.png)
 
 ## Building
