@@ -220,6 +220,7 @@ void MainFrame::OnAbout(wxCommandEvent&) {
     info.SetDescription("Classic Minesweeper, ported to portable wxWidgets.");
     info.SetCopyright("Original game (c) Microsoft.\n"
                       "by Robert Donner and Curt Johnson");
+    info.SetIcon(GetIcon());
     wxAboutBox(info, this);
 }
 
