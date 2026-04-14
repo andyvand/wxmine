@@ -3,7 +3,9 @@
 #include <memory>
 
 #include <wx/aboutdlg.h>
+#include <wx/filesys.h>
 #include <wx/icon.h>
+#include <wx/image.h>
 #include <wx/menu.h>
 #include <wx/msgdlg.h>
 #include <wx/sizer.h>
@@ -16,6 +18,7 @@
 #include "GameConstants.h"
 #include "PrefDialog.h"
 #include "Renderer.h"
+#include "Resources.h"
 
 namespace wxmine {
 
@@ -220,7 +223,20 @@ void MainFrame::OnAbout(wxCommandEvent&) {
     info.SetDescription("Classic Minesweeper, ported to portable wxWidgets.");
     info.SetCopyright("Original game (c) Microsoft.\n"
                       "by Robert Donner and Curt Johnson");
-    info.SetIcon(GetIcon());
+
+    // Load the icon directly from the embedded XRS archive instead of
+    // GetIcon(), which may not round-trip through GTK's pixbuf storage.
+    wxFileSystem fs;
+    std::unique_ptr<wxFSFile> file(fs.OpenFile(AssetUrl("assets/wxmine.png")));
+    if (file) {
+        wxImage img;
+        if (img.LoadFile(*file->GetStream(), wxBITMAP_TYPE_PNG)) {
+            wxIcon icon;
+            icon.CopyFromBitmap(wxBitmap(img));
+            info.SetIcon(icon);
+        }
+    }
+
     wxAboutBox(info, this);
 }
 
