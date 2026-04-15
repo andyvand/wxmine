@@ -5,6 +5,7 @@
 #include <wx/filesys.h>
 #include <wx/mstream.h>
 #include <wx/pen.h>
+#include <future>
 
 #include "GameCore.h"
 #include "Preferences.h"
