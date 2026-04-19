@@ -1,0 +1,199 @@
+.\" Man page for wxmine — wxWidgets Minesweeper
+.\" Translated from wxmine.chm (Minesweeper Help).
+.TH WXMINE 6 "2026-04-19" "wxmine" "Games Manual"
+.SH NAME
+wxmine \- a wxWidgets port of the classic Minesweeper game
+.SH SYNOPSIS
+.B wxmine
+.SH DESCRIPTION
+.B Minesweeper
+is a challenging game of strategy and luck.
+.PP
+When playing Minesweeper you are presented with a mine field, and your
+objective is to locate all the mines as quickly as possible.
+To do this, you uncover the squares on the game board that do not contain
+mines, and you mark the squares that do contain mines.
+The trick is determining which squares are which.
+.PP
+If you uncover all the squares without mines, you win; if you uncover a mine
+instead of marking it, you lose the game.
+The faster you play, the lower your score.
+You can use the counters at the top of the playing area to keep track of your
+progress.
+.PP
+The counter in the upper-right corner of the playing area is a timer, which
+displays your playing time in seconds.
+The timer does not begin counting until you select a square.
+.PP
+The counter in the upper-left corner of the playing area initially indicates
+the number of mines hidden in the mine field.
+Every time you mark a square as a mine, this number decreases by one, even if
+you incorrectly mark a square.
+.SH PLAYING THE GAME
+The object of Minesweeper is to correctly mark all mines as quickly as
+possible without uncovering one.
+.SS Choosing a skill level
+From the
+.B Game
+menu, choose
+.BR Beginner ", " Intermediate ", or " Expert .
+The higher the skill level, the larger the mine field.
+.TP
+.B Beginner
+9 \(mu 9 board, 10 mines.
+.TP
+.B Intermediate
+16 \(mu 16 board, 40 mines.
+.TP
+.B Expert
+30 \(mu 16 board, 99 mines.
+.TP
+.B Custom
+9\(en30 wide, 9\(en24 tall, 10\(en999 mines (capped at (W\-1)\(mu(H\-1)).
+.SS Starting a new game
+From the
+.B Game
+menu, choose
+.BR New ,
+or press
+.BR F2 .
+You can also click the yellow \(lqhappy face\(rq at the top of the game board.
+.SS Locating the mines
+.IP 1. 4
+To uncover a square, select it using the left mouse button.
+If the square is a mine, you lose.
+.IP 2. 4
+If the square isn't a mine, a number appears.
+This number represents the number of mines in the surrounding eight squares.
+.IP 3. 4
+To mark a square as a mine, select it with the right mouse button.
+To mark a square you are uncertain about, point to it and click twice with
+the right mouse button.
+This marks the square with a question mark
+.RB ( ? ).
+Later, you can either mark the square as a mine, or uncover it.
+.SH RULES OF THE GAME
+.IP \(bu 2
+The playing area is a mine field, simulated by a grid of squares.
+Initially, all the squares are covered.
+.IP \(bu 2
+To uncover a square, point to it and click the left mouse button.
+You continue to uncover squares until only the squares containing mines are
+covered.
+.IP \(bu 2
+If you uncover a square that does not contain a mine, it either contains a
+number or is blank.
+If the square contains a number
+.IR N ,
+then there are
+.I N
+mines in the surrounding eight squares.
+If the square is blank, there are no mines in the surrounding eight squares.
+.IP \(bu 2
+If you uncover a blank square, the surrounding eight squares are uncovered
+automatically because there cannot be any mines under them.
+.IP \(bu 2
+If you know that a square is a mine, you can mark the square.
+.IP \(bu 2
+If you uncover a square that contains a mine, the game is over and all the
+mines are displayed.
+.PP
+You can also \(lqclear around\(rq an uncovered number square whose mine has
+already been marked.
+For example, two squares labeled 1 may both be touching a marked square.
+If you clear around the uncovered squares, you may uncover additional squares
+that do not contain mines.
+If you clear around a square whose mine is already marked, the surrounding
+numbered squares are uncovered.
+.SS Clearing around a square
+Point to the numbered square, and then click both mouse buttons at the same
+time (or the middle mouse button).
+If there are other squares whose mines have been marked, they will be
+uncovered for you.
+.PP
+You are not allowed to clear around a square if you have not marked enough
+mines in the surrounding eight squares, or if the square is covered.
+For example, if you try to clear around a square labeled 3, and you have
+marked only two squares with mines, nothing will happen.
+Likewise, nothing happens if you try to clear around an uncovered square.
+.PP
+If you clear around a square, and there is an unmarked mine in the
+surrounding eight squares, it is uncovered and the game is over.
+If you clear around a square whose mines are incorrectly marked and a mine is
+uncovered, the game is over.
+.SH KEEPING SCORE
+Minesweeper scoring is simple.
+The counter in the upper-right corner of the playing area indicates your
+playing time.
+The faster you find all the mines, the better your score.
+.PP
+To see a list of your fastest playing times, choose
+.B Best Times
+from the
+.B Game
+menu.
+.SH MARKING A SQUARE
+Knowing when to mark a square as a mine is the key to winning the game.
+.TP
+.B To uncover a square
+Point to the square, and click the left mouse button.
+.TP
+.B To mark a square as a mine
+Point to the square, and click the right mouse button once.
+.TP
+.B To mark a square as a question mark
+Point to the square, and click the right mouse button twice.
+.TP
+.B To change a square marked as a mine into a question mark
+Point to the square, and click the right mouse button once.
+.TP
+.B To clear a square marked as a mine
+Point to the square, and click the right mouse button twice.
+.PP
+Once you have marked at least one square as a mine, you may be able to safely
+uncover more squares by \(lqclearing around\(rq them.
+.SH STRATEGIES AND HINTS
+.IP \(bu 2
+If an uncovered square is labeled 1, and there is only one covered square
+touching it, that covered square must be a mine.
+.IP \(bu 2
+If an uncovered square already has the correct number of adjacent mines
+marked, clear around it.
+.IP \(bu 2
+Don't guess.
+If you can't figure out how to move, try approaching the area from a
+different direction or marking squares with question marks.
+.SH MENU OPTIONS
+.TP
+.B Game \(-> Marks (?)
+Toggles the third right-click state (\(lq?\(rq) on or off.
+.TP
+.B Game \(-> Color
+Toggles between the colour and black-and-white sprite sheets.
+.TP
+.B Game \(-> Sound
+Toggles the tick / win / lose sound effects.
+.TP
+.B Game \(-> Best Times\&...
+Shows the persistent high-score table.
+.SH KEYBOARD
+.TP
+.B F1
+Help.
+.TP
+.B F2
+Start a new game.
+.SH FILES
+.TP
+.I ~/.wxmine
+Configuration and high-score data on Linux
+.RB ( wxConfig
+backing store).
+.SH NOTES
+The first cell you reveal is always safe \(em if you happen to click on a
+mine, it is relocated to the first available empty cell.
+.SH SEE ALSO
+.BR xmines (6)
+.SH AUTHORS
+Original Minesweeper by Robert Donner and Curt Johnson.
+This wxWidgets port reuses the original sprite art and game algorithm.
