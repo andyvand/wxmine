@@ -30,6 +30,7 @@ private:
     void OnBest(wxCommandEvent&);
     void OnExit(wxCommandEvent&);
     void OnAbout(wxCommandEvent&);
+    void OnHelp(wxCommandEvent&);
 
     void OnIconize(wxIconizeEvent& evt);
     void OnClose(wxCloseEvent& evt);

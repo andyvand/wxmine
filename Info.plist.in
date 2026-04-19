@@ -22,6 +22,10 @@
     <string>${MACOSX_BUNDLE_BUNDLE_VERSION}</string>
     <key>CFBundleSignature</key>
     <string>????</string>
+    <key>CFBundleHelpBookFolder</key>
+    <string>wxmine.help</string>
+    <key>CFBundleHelpBookName</key>
+    <string>Minesweeper Help</string>
     <key>LSMinimumSystemVersion</key>
     <string>10.13</string>
     <key>LSApplicationCategoryType</key>

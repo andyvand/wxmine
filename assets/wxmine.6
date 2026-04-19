@@ -1,0 +1,132 @@
+.\" Man page for wxmine(6) -- wxWidgets Minesweeper clone.
+.\" Content adapted from the bundled Windows CHM / macOS Help Book.
+.TH WXMINE 6 "2026-04-19" "wxmine 1.0" "Games"
+.SH NAME
+wxmine \- wxWidgets Minesweeper clone
+.SH SYNOPSIS
+.B wxmine
+.SH DESCRIPTION
+.B wxmine
+is a cross-platform port of the classic Microsoft Minesweeper game built on
+wxWidgets. The object is to correctly mark all the mines hidden on the board
+as quickly as possible without uncovering one.
+.PP
+You are presented with a mine field simulated by a grid of covered squares.
+Uncover squares that do not contain mines and mark squares that do. If you
+uncover every non-mine square you win; if you uncover a mine, you lose. The
+faster you play, the lower (better) your score.
+.PP
+The counter in the upper-left of the playing area shows the number of
+remaining unmarked mines (it decreases by one every time you mark a square
+as a mine, even if the mark is incorrect). The counter in the upper-right
+is a timer, in seconds, which starts when you uncover the first square.
+.SH PLAYING THE GAME
+.SS Choosing a skill level
+From the
+.B Game
+menu choose
+.BR Beginner ,
+.BR Intermediate ,
+or
+.BR Expert .
+Higher skill levels use a larger mine field with more mines.
+.SS Starting a new game
+From the
+.B Game
+menu choose
+.B New
+or press
+.BR F2 .
+You can also click the yellow "happy face" at the top of the board.
+.SS Locating the mines
+.TP
+1.
+To uncover a square, click it with the left mouse button. If the square is a
+mine, you lose.
+.TP
+2.
+If the square is not a mine, a number appears. That number is the count of
+mines in the eight surrounding squares.
+.TP
+3.
+To mark a square as a mine, click it with the right mouse button.
+.TP
+4.
+To mark a square you are uncertain about, click it with the right mouse
+button twice. This marks it with a question mark (?). Later you can either
+mark it as a mine or uncover it.
+.SH RULES
+.IP \(bu 2
+The playing area is a grid of covered squares. Uncover squares until only
+those containing mines are covered.
+.IP \(bu 2
+An uncovered square either shows a number
+.IR N ,
+meaning there are
+.I N
+mines in the surrounding eight squares, or is blank, meaning there are none.
+.IP \(bu 2
+If you uncover a blank square, the surrounding eight squares are
+uncovered automatically because none of them can contain a mine.
+.IP \(bu 2
+If you uncover a square that contains a mine, the game ends and every mine
+is revealed.
+.PP
+You can also "clear around" an uncovered numbered square whose adjacent mines
+have already been marked.
+.SS Clearing around a square
+Point to the numbered square and click both mouse buttons at the same time.
+.IP \(bu 2
+Clearing only works if you have already marked exactly the right number of
+mines around the square. If too few mines are marked, or if the square is
+still covered, nothing happens.
+.IP \(bu 2
+If you marked the wrong squares and clearing exposes a real mine, the game
+ends.
+.SH MARKING A SQUARE
+.TP
+.B Uncover a square
+Left\-click the square.
+.TP
+.B Mark a square as a mine
+Right\-click the square once.
+.TP
+.B Mark a square as a question mark
+Right\-click the square twice (from an unmarked state).
+.TP
+.B Clear a mark
+Right\-click the square again until it cycles back to unmarked.
+.SH SCORING
+Scoring is time\-based. The timer in the upper\-right of the playing area
+shows your elapsed time in seconds. The faster you find all the mines, the
+better your score. Choose
+.B Best Times
+from the
+.B Game
+menu to see a list of your fastest playing times per skill level.
+.SH STRATEGY
+.IP \(bu 2
+If an uncovered square is labeled
+.B 1
+and it touches exactly one covered square, that covered square must be a
+mine.
+.IP \(bu 2
+If an uncovered square already has the correct number of adjacent mines
+marked, clear around it to expose the rest of its neighbours safely.
+.IP \(bu 2
+Do not guess. If you cannot work out a move, approach the area from a
+different direction, or mark ambiguous squares with question marks while you
+think.
+.SH FILES
+.TP
+.I ~/.config/wxmine/
+Per\-user preferences and high\-score tables.
+.SH SEE ALSO
+The full HTML help (identical content with illustrations) is bundled as
+.IR wxmine.chm
+on Windows and as the
+.I wxmine.help
+Apple Help Book on macOS.
+.SH AUTHORS
+Original Minesweeper by Microsoft Corporation. wxWidgets port and packaging
+by the wxmine contributors.

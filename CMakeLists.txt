@@ -100,6 +100,7 @@ if(APPLE)
     set_source_files_properties(${MACOSX_ICNS} PROPERTIES
         MACOSX_PACKAGE_LOCATION Resources)
     list(APPEND SOURCES ${MACOSX_ICNS})
+    list(APPEND SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/help_mac.mm)
 endif()
 
 # Windows app icon + version info: the resource compiler picks up wxmine.rc,
@@ -109,6 +110,7 @@ endif()
 # in order for #include "wx/msw/wx.rc" to resolve.
 if(WIN32)
     list(APPEND SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/wxmine.rc)
+    list(APPEND SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/help_win.cpp)
 endif()
 
 add_executable(wxmine WIN32 MACOSX_BUNDLE ${SOURCES})
@@ -119,6 +121,18 @@ if(WIN32)
     set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/wxmine.rc
         PROPERTIES LANGUAGE RC)
     target_include_directories(wxmine PRIVATE ${wxWidgets_INCLUDE_DIRS})
+
+    # help_win.cpp calls HtmlHelpW from hhctrl.ocx; the import lib is
+    # htmlhelp.lib (MSVC) / libhtmlhelp.a (MinGW).
+    target_link_libraries(wxmine PRIVATE htmlhelp)
+
+    # Ship wxmine.chm next to wxmine.exe so ShowWinHelp() finds it via
+    # GetModuleFileName-relative lookup.
+    add_custom_command(TARGET wxmine POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_CURRENT_SOURCE_DIR}/wxmine.chm
+                $<TARGET_FILE_DIR:wxmine>/wxmine.chm
+        COMMENT "Installing wxmine.chm next to wxmine.exe")
 endif()
 
 # Resources.cpp is the single TU that #includes winmine_xrs.h, so depend it on
@@ -140,10 +154,24 @@ if(APPLE)
         MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
         MACOSX_BUNDLE_ICON_FILE "wxmine.icns")
 
+    # Copy the Apple Help Book into wxmine.app/Contents/Resources/wxmine.help
+    # at build time. CFBundleHelpBookFolder in Info.plist.in points at this
+    # directory, and help_mac.mm's ShowMacHelpBook() opens it via
+    # NSHelpManager.
+    set(WXMINE_HELP_SRC  ${CMAKE_CURRENT_SOURCE_DIR}/assets/wxmine.help)
+    set(WXMINE_HELP_DST  $<TARGET_BUNDLE_CONTENT_DIR:wxmine>/Resources/wxmine.help)
+    add_custom_command(TARGET wxmine POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E rm -rf ${WXMINE_HELP_DST}
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${WXMINE_HELP_SRC} ${WXMINE_HELP_DST}
+        COMMENT "Installing wxmine.help into app bundle")
+
+    target_link_libraries(wxmine PRIVATE "-framework AppKit" "-framework Foundation")
+
 elseif(UNIX)
     install(TARGETS wxmine RUNTIME DESTINATION bin)
     install(FILES     ${CMAKE_CURRENT_SOURCE_DIR}/wxmine.desktop      DESTINATION share/applications)
     install(FILES     ${CMAKE_CURRENT_SOURCE_DIR}/wxmine.metainfo.xml DESTINATION share/metainfo)
+    install(FILES     ${CMAKE_CURRENT_SOURCE_DIR}/assets/wxmine.6     DESTINATION share/man/man6)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/assets/sizes/                    DESTINATION share/icons/hicolor)
 
 endif()

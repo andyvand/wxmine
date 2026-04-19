@@ -9,7 +9,14 @@
 #include <wx/menu.h>
 #include <wx/msgdlg.h>
 #include <wx/sizer.h>
+#include <wx/utils.h>
 #include <wx/xrc/xmlres.h>
+
+#if defined(__WXMAC__)
+extern "C" void ShowMacHelpBook(const char *anchor);
+#elif defined(__WXMSW__)
+extern "C" void ShowWinHelp(const char *anchor);
+#endif
 
 #include "BestDialog.h"
 #include "BoardPanel.h"
@@ -114,6 +121,7 @@ MainFrame::MainFrame()
     Bind(wxEVT_MENU, &MainFrame::OnBest,          this, XRCID("IDM_BEST"));
     Bind(wxEVT_MENU, &MainFrame::OnExit,          this, wxID_EXIT);
     Bind(wxEVT_MENU, &MainFrame::OnAbout,         this, wxID_ABOUT);
+    Bind(wxEVT_MENU, &MainFrame::OnHelp,          this, wxID_HELP);
 
     Bind(wxEVT_ICONIZE, &MainFrame::OnIconize, this);
     Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
@@ -238,6 +246,22 @@ void MainFrame::OnAbout(wxCommandEvent&) {
     }
 
     wxAboutBox(info, this);
+}
+
+void MainFrame::OnHelp(wxCommandEvent&) {
+#if defined(__WXMAC__)
+    ShowMacHelpBook(nullptr);
+#elif defined(__WXMSW__)
+    ShowWinHelp(nullptr);
+#else
+    // Best-effort Linux fallback: GNOME's yelp and KDE's khelpcenter both
+    // register a "man:" URI handler, so this surfaces the installed wxmine(6)
+    // page. If no handler is registered, point the user at the terminal.
+    if (!wxLaunchDefaultBrowser("man:wxmine")) {
+        wxMessageBox("See 'man wxmine' in a terminal for help.",
+                     "Minesweeper", wxICON_INFORMATION | wxOK, this);
+    }
+#endif
 }
 
 void MainFrame::OnIconize(wxIconizeEvent& evt) {
