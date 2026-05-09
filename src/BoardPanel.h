@@ -52,9 +52,11 @@ private:
     Renderer& m_renderer;
     wxTimer   m_timer;
 
-    // Integer scale factor and centering offset for the native-resolution
-    // sprite render. Recomputed on every resize/paint.
-    int       m_scale   = 1;
+    // Floating-point scale factor and centering offset for the native-
+    // resolution sprite render. Recomputed on every resize/paint. The
+    // minimum scale is 2.0, so the panel starts at twice the native pixel
+    // size of the sprite sheet.
+    double    m_scale   = 2.0;
     int       m_offsetX = 0;
     int       m_offsetY = 0;
 

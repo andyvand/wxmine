@@ -13,7 +13,8 @@
 namespace wxmine {
 
 namespace {
-constexpr int kSmileyTimerId = 4242;
+constexpr int    kSmileyTimerId = 4242;
+constexpr double kMinScale      = 2.0;
 }
 
 BoardPanel::BoardPanel(wxWindow* parent, GameCore& game, Renderer& renderer)
@@ -38,7 +39,9 @@ BoardPanel::BoardPanel(wxWindow* parent, GameCore& game, Renderer& renderer)
 }
 
 wxSize BoardPanel::ResizeForBoard(int boardW, int boardH) {
-    const wxSize size = m_renderer.ComputePanelSize(boardW, boardH);
+    const wxSize nativeSize = m_renderer.ComputePanelSize(boardW, boardH);
+    const wxSize size(static_cast<int>(nativeSize.x * kMinScale),
+                      static_cast<int>(nativeSize.y * kMinScale));
     SetMinSize(size);
     SetSize(size);
     Refresh();
@@ -61,15 +64,15 @@ void BoardPanel::ComputeLayout() {
         m_game.BoardWidth(), m_game.BoardHeight());
     const wxSize clientSize = GetClientSize();
     if (nativeSize.x <= 0 || nativeSize.y <= 0) {
-        m_scale = 1;
+        m_scale = kMinScale;
         m_offsetX = m_offsetY = 0;
         return;
     }
-    const int sx = clientSize.x / nativeSize.x;
-    const int sy = clientSize.y / nativeSize.y;
-    m_scale = std::max(1, std::min(sx, sy));
-    m_offsetX = (clientSize.x - nativeSize.x * m_scale) / 2;
-    m_offsetY = (clientSize.y - nativeSize.y * m_scale) / 2;
+    const double sx = static_cast<double>(clientSize.x) / nativeSize.x;
+    const double sy = static_cast<double>(clientSize.y) / nativeSize.y;
+    m_scale = std::max(kMinScale, std::min(sx, sy));
+    m_offsetX = static_cast<int>((clientSize.x - nativeSize.x * m_scale) / 2.0);
+    m_offsetY = static_cast<int>((clientSize.y - nativeSize.y * m_scale) / 2.0);
     if (m_offsetX < 0) m_offsetX = 0;
     if (m_offsetY < 0) m_offsetY = 0;
 }
@@ -92,7 +95,7 @@ void BoardPanel::OnPaint(wxPaintEvent& /*evt*/) {
     const wxSize nativeSize = m_renderer.ComputePanelSize(
         m_game.BoardWidth(), m_game.BoardHeight());
 
-    if (m_scale == 1) {
+    if (m_scale == 1.0) {
         dc.SetDeviceOrigin(m_offsetX, m_offsetY);
         m_renderer.DrawScreen(dc, m_game);
         dc.SetDeviceOrigin(0, 0);
@@ -107,25 +110,26 @@ void BoardPanel::OnPaint(wxPaintEvent& /*evt*/) {
         m_renderer.DrawScreen(mem, m_game);
     }
     wxImage img = buffer.ConvertToImage();
-    img.Rescale(nativeSize.x * m_scale, nativeSize.y * m_scale,
+    img.Rescale(static_cast<int>(nativeSize.x * m_scale),
+                static_cast<int>(nativeSize.y * m_scale),
                 wxIMAGE_QUALITY_NEAREST);
     dc.DrawBitmap(wxBitmap(img), m_offsetX, m_offsetY, false);
 }
 
 int BoardPanel::XCellFromPx(int px) const {
-    const int local = (px - m_offsetX) / m_scale;
+    const int local = static_cast<int>((px - m_offsetX) / m_scale);
     return (local - (dxGridOff - dxBlk)) >> 4;
 }
 int BoardPanel::YCellFromPx(int py) const {
-    const int local = (py - m_offsetY) / m_scale;
+    const int local = static_cast<int>((py - m_offsetY) / m_scale);
     return (local - (dyGridOff - dyBlk)) >> 4;
 }
 
 bool BoardPanel::HitSmiley(const wxPoint& p) const {
     const int dxWindow = dxBlk * m_game.BoardWidth() + dxGridOff + dxRightSpace;
     const int x = (dxWindow - dxButton) >> 1;
-    const int lx = (p.x - m_offsetX) / m_scale;
-    const int ly = (p.y - m_offsetY) / m_scale;
+    const int lx = static_cast<int>((p.x - m_offsetX) / m_scale);
+    const int ly = static_cast<int>((p.y - m_offsetY) / m_scale);
     return lx >= x && lx < x + dxButton
         && ly >= dyTopLed && ly < dyTopLed + dyButton;
 }
