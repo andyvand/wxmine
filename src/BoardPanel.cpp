@@ -1,7 +1,12 @@
 #include "BoardPanel.h"
 
-#include <wx/dcbuffer.h>
+#include <algorithm>
 
+#include <wx/dcbuffer.h>
+#include <wx/dcmemory.h>
+#include <wx/image.h>
+
+#include "GameConstants.h"
 #include "GameCore.h"
 #include "Renderer.h"
 
@@ -21,6 +26,7 @@ BoardPanel::BoardPanel(wxWindow* parent, GameCore& game, Renderer& renderer)
     SetDoubleBuffered(true);
 
     Bind(wxEVT_PAINT,         &BoardPanel::OnPaint,       this);
+    Bind(wxEVT_SIZE,          &BoardPanel::OnSize,        this);
     Bind(wxEVT_LEFT_DOWN,     &BoardPanel::OnLeftDown,    this);
     Bind(wxEVT_LEFT_UP,       &BoardPanel::OnLeftUp,      this);
     Bind(wxEVT_RIGHT_DOWN,    &BoardPanel::OnRightDown,   this);
@@ -50,23 +56,78 @@ void BoardPanel::RepaintButton()     { Refresh(false); }
 void BoardPanel::RepaintBombCount()  { Refresh(false); }
 void BoardPanel::RepaintTime()       { Refresh(false); StartOrStopTimerFromGame(); }
 
+void BoardPanel::ComputeLayout() {
+    const wxSize nativeSize = m_renderer.ComputePanelSize(
+        m_game.BoardWidth(), m_game.BoardHeight());
+    const wxSize clientSize = GetClientSize();
+    if (nativeSize.x <= 0 || nativeSize.y <= 0) {
+        m_scale = 1;
+        m_offsetX = m_offsetY = 0;
+        return;
+    }
+    const int sx = clientSize.x / nativeSize.x;
+    const int sy = clientSize.y / nativeSize.y;
+    m_scale = std::max(1, std::min(sx, sy));
+    m_offsetX = (clientSize.x - nativeSize.x * m_scale) / 2;
+    m_offsetY = (clientSize.y - nativeSize.y * m_scale) / 2;
+    if (m_offsetX < 0) m_offsetX = 0;
+    if (m_offsetY < 0) m_offsetY = 0;
+}
+
+void BoardPanel::OnSize(wxSizeEvent& evt) {
+    ComputeLayout();
+    Refresh(false);
+    evt.Skip();
+}
+
 void BoardPanel::OnPaint(wxPaintEvent& /*evt*/) {
     wxAutoBufferedPaintDC dc(this);
-    m_renderer.DrawScreen(dc, m_game);
+    ComputeLayout();
+
+    // Fill the whole panel with the classic gray so any letterbox area
+    // surrounding the scaled board matches the sprite background.
+    dc.SetBackground(wxBrush(wxColour(192, 192, 192)));
+    dc.Clear();
+
+    const wxSize nativeSize = m_renderer.ComputePanelSize(
+        m_game.BoardWidth(), m_game.BoardHeight());
+
+    if (m_scale == 1) {
+        dc.SetDeviceOrigin(m_offsetX, m_offsetY);
+        m_renderer.DrawScreen(dc, m_game);
+        dc.SetDeviceOrigin(0, 0);
+        return;
+    }
+
+    // Render at native resolution to an off-screen bitmap, then scale up
+    // with nearest-neighbor for crisp pixel-art enlargement.
+    wxBitmap buffer(nativeSize.x, nativeSize.y);
+    {
+        wxMemoryDC mem(buffer);
+        m_renderer.DrawScreen(mem, m_game);
+    }
+    wxImage img = buffer.ConvertToImage();
+    img.Rescale(nativeSize.x * m_scale, nativeSize.y * m_scale,
+                wxIMAGE_QUALITY_NEAREST);
+    dc.DrawBitmap(wxBitmap(img), m_offsetX, m_offsetY, false);
 }
 
 int BoardPanel::XCellFromPx(int px) const {
-    return (px - (dxGridOff - dxBlk)) >> 4;
+    const int local = (px - m_offsetX) / m_scale;
+    return (local - (dxGridOff - dxBlk)) >> 4;
 }
 int BoardPanel::YCellFromPx(int py) const {
-    return (py - (dyGridOff - dyBlk)) >> 4;
+    const int local = (py - m_offsetY) / m_scale;
+    return (local - (dyGridOff - dyBlk)) >> 4;
 }
 
 bool BoardPanel::HitSmiley(const wxPoint& p) const {
     const int dxWindow = dxBlk * m_game.BoardWidth() + dxGridOff + dxRightSpace;
     const int x = (dxWindow - dxButton) >> 1;
-    return p.x >= x && p.x < x + dxButton
-        && p.y >= dyTopLed && p.y < dyTopLed + dyButton;
+    const int lx = (p.x - m_offsetX) / m_scale;
+    const int ly = (p.y - m_offsetY) / m_scale;
+    return lx >= x && lx < x + dxButton
+        && ly >= dyTopLed && ly < dyTopLed + dyButton;
 }
 
 void BoardPanel::OnLeftDown(wxMouseEvent& evt) {

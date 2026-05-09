@@ -31,6 +31,7 @@ public:
 
 private:
     void OnPaint(wxPaintEvent& evt);
+    void OnSize(wxSizeEvent& evt);
     void OnLeftDown(wxMouseEvent& evt);
     void OnLeftUp(wxMouseEvent& evt);
     void OnRightDown(wxMouseEvent& evt);
@@ -42,12 +43,20 @@ private:
 
     void StartOrStopTimerFromGame();
 
+    void ComputeLayout();
+
     int  XCellFromPx(int px) const;
     int  YCellFromPx(int py) const;
 
     GameCore& m_game;
     Renderer& m_renderer;
     wxTimer   m_timer;
+
+    // Integer scale factor and centering offset for the native-resolution
+    // sprite render. Recomputed on every resize/paint.
+    int       m_scale   = 1;
+    int       m_offsetX = 0;
+    int       m_offsetY = 0;
 
     // Tracks whether we entered "smiley press" mode on left-down so we can
     // restart the game on left-up.

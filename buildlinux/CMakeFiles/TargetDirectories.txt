@@ -1,0 +1,8 @@
+/home/andyvand/Downloads/wxmine/buildlinux/CMakeFiles/bin2c.dir
+/home/andyvand/Downloads/wxmine/buildlinux/CMakeFiles/wxmine.dir
+/home/andyvand/Downloads/wxmine/buildlinux/CMakeFiles/edit_cache.dir
+/home/andyvand/Downloads/wxmine/buildlinux/CMakeFiles/rebuild_cache.dir
+/home/andyvand/Downloads/wxmine/buildlinux/CMakeFiles/list_install_components.dir
+/home/andyvand/Downloads/wxmine/buildlinux/CMakeFiles/install.dir
+/home/andyvand/Downloads/wxmine/buildlinux/CMakeFiles/install/local.dir
+/home/andyvand/Downloads/wxmine/buildlinux/CMakeFiles/install/strip.dir

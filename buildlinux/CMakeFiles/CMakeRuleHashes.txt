@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+d6ca15abc8fcb975a57b6b1c9ec7dbfe winmine.xrs
+7d2a7ebba162c39fd76c1475636e2388 winmine_xrs.h

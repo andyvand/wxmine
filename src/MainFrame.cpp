@@ -52,7 +52,7 @@ constexpr LevelData kLevels[3] = {
 MainFrame::MainFrame()
     : wxFrame(nullptr, wxID_ANY, "Minesweeper",
               wxDefaultPosition, wxDefaultSize,
-              wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+              wxDEFAULT_FRAME_STYLE)
 {
     m_owned = new Owned;
 
